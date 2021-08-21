@@ -1,7 +1,14 @@
 import psycopg2
-import getConnection.py
+import pandas as pd
+from getConnection import connect5
 
 def main():
-    con = psycopg2.connect()
+    conn = connect5()
+    
+    df = pd.read_sql(con=conn, sql="SELECT version()")
+    print(df)
 
-    con.close()
+    conn.close()
+
+if __name__ == "__main__":
+    main()
