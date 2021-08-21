@@ -1,5 +1,5 @@
 import 'tailwindcss/tailwind.css'
-import Link from "next/link";
+import '../assets/app.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
