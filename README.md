@@ -1,2 +1,2 @@
-# connect-5
-An AI engine for analyzing and determining optimal play for Connect-4 and its variations.
+# PypeLyne
+A matchmaker for programmers and hackers looking to collaborate on various events and projects.
