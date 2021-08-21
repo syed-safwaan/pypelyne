@@ -1,55 +1,48 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export const Navigation = () => {
-    return (
-      <>
-        <nav className="flex items-center justify-between flex-wrap p-3 glass">
-            <ul className="flex items-center">
-                <li>
-                    <Link href="/">
-                        <a className="inline-flex items-center p-2 mr-4"><span>Connect</span></a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/">
-                        <a className="inline-flex items-center p-2 mr-4"><span>Messages</span></a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/">
-                        <a className="inline-flex items-center p-2 mr-4"><span>Likes</span></a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/">
-                        <a className="inline-flex items-center p-2 mr-4"><span>Profile</span></a>
-                    </Link>
-                </li>
-            </ul>
-        </nav>
-        <style jsx>{`
-            nav {
-                // position: fixed;
-                min-height: 5vh;
-                width: 60%;
-                padding: 1rem 3rem;
-            }
-            nav ul {
-                // float: right;
-
-            }
-
-            .glass {
-    
-                --tw-bg-opacity: 1;
-                background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-                background: linear-gradient(
-                  to right bottom,
-                  rgba(255, 255, 255, 0.7),
-                  rgba(255, 255, 255, 0.3)
-                );
-              }
-        `}</style>
-      </>
-    )
-  }
+  return (
+    <>
+      <nav className="flex items-center justify-center flex-wrap p-3 glass rounded-3xl">
+        <ul className="flex items-center">
+          <li>
+            <Link href="/">
+              <a className="inline-flex items-center p-2 mr-4">
+                <span>Connect</span>
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/">
+              <a className="inline-flex items-center p-2 mr-4">
+                <span>Messages</span>
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/">
+              <a className="inline-flex items-center p-2 mr-4">
+                <span>Likes</span>
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/">
+              <a className="inline-flex items-center p-2 mr-4">
+                <span>Profile</span>
+              </a>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <style jsx>{`
+        nav {
+          // position: fixed;
+          min-height: 5vh;
+          width: 60%;
+          padding: 1rem 3rem;
+        }
+      `}</style>
+    </>
+  );
+};
