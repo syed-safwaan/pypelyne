@@ -3,6 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { Navigation } from "../components/Navigation/Navigation";
 import Dropdowns from "../components/Dropdowns";
+import { SimpleTextArea } from "../components/SimpleTextArea";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../components/firebase/firebase";
 import { useEffect } from "react";
@@ -35,13 +36,7 @@ export default function Profile() {
             className="glass rounded-2xl w-52 h-52 m-auto mt-4"
           />
           <div className="flex items-center justify-center">
-            <textarea
-              className="glass w-3/4 h-1/5 m-3 rounded-2xl p-3"
-              name="biography"
-              id=""
-              cols="15"
-              rows="5"
-            ></textarea>
+            <SimpleTextArea />
           </div>
           <div
             id="tagSection"
@@ -52,6 +47,9 @@ export default function Profile() {
               tagColour="bg-red-300"
               textColour="text-gray-600"
             />
+            <div>
+              <button>save</button>
+            </div>
           </div>
         </section>
         <Dropdowns />
