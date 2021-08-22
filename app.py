@@ -6,6 +6,7 @@ from flask_cors import CORS, cross_origin
 import json
 import backend
 import traceback
+import pandas as pd
 
 conn = backend.get_connection()
 
@@ -54,13 +55,33 @@ def register():
         return Response('{}', 500)
 
 
-@app.route("/api/profile", methods=["GET"])
+@app.route("/api/profile", methods=["POST"])
 @cross_origin()
 def profile():
     data = request.get_json()
-    email = data['email']
+    #email = data['email']
 
-    return Response(json.dumps({}), 200)
+    email = "Alextu85@yahoo.ca"
+
+    df = pd.read_sql(con=conn, sql=backend.get_user.format(email=email))
+    result = json.loads(df.to_json(orient="index"))["0"]
+    print(result)
+
+    result['user_tag'] = []
+
+    for k, v in list(result.items()):
+        print(k, v)
+        if k.startswith("tag"):
+            if v is not None:
+                df = pd.read_sql(con=conn, sql=backend.get_tag_by_id.format(tag_id=v))
+                temp = json.loads(df.to_json(orient="index"))["0"]
+
+                result["user_tag"].append(temp["name"])
+            del result[k]
+
+    print(result)
+
+    return Response(json.dumps(result), 200)
 
 
 

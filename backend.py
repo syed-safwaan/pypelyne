@@ -35,3 +35,6 @@ if __name__ == "__main__":
     main()
 
 ins_new_user="INSERT INTO profile (name, email) VALUES ('{name}', '{email}');"
+get_user="SELECT * FROM profile WHERE email='{email}';"
+ins_tag="INSERT INTO TAG (NAME) VALUES ('{tag_name}') ON CONFLICT (NAME) DO NOTHING;"
+get_tag_by_id="SELECT * FROM tag WHERE id = {tag_id};"
