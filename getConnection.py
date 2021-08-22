@@ -11,7 +11,7 @@ _port = os.getenv("PORT")
 _user = os.getenv("USER")
 _password = os.getenv("PASS")
 
-print(_database, _host, _port, _user, _password)
+#print(_database, _host, _port, _user, _password)
 
 
 def get_connection():
