@@ -2,10 +2,11 @@ import "tailwindcss/tailwind.css";
 import Link from "next/link";
 import Head from "next/head";
 import { Navigation } from "../components/Navigation/Navigation";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../components/firebase/firebase";
-import {useEffect} from "react";
-import {useRouter} from "next/router";
+import Dropdowns from "../components/Dropdowns";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../components/firebase/firebase";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 import { ProfilePicture } from "../components/Profile/ProfilePicture";
 import { Tag } from "../components/Tags/Tag";
@@ -22,7 +23,7 @@ export default function Profile() {
     if (loading) {
       return;
     }
-    if (!user) router.replace('/')
+    if (!user) router.replace("/");
     else {
       sw.fire({
         title: "Processing...",
@@ -57,13 +58,27 @@ export default function Profile() {
             image="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
             className="glass rounded-2xl w-52 h-52 m-auto mt-4"
           />
-          <Tag
-            tagText="C++"
-            tagColour="bg-red-300"
-            textColour="text-gray-600"
-          />
+          <div className="flex items-center justify-center">
+            <textarea
+              className="glass w-3/4 h-1/5 m-3 rounded-2xl p-3"
+              name="biography"
+              id=""
+              cols="15"
+              rows="5"
+            ></textarea>
+          </div>
+          <div
+            id="tagSection"
+            className="flex flex-wrap items-center justify-center "
+          >
+            <Tag
+              tagText="C++"
+              tagColour="bg-red-300"
+              textColour="text-gray-600"
+            />
+          </div>
         </section>
-
+        <Dropdowns />
         <Navigation />
       </main>
     </>
