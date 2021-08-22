@@ -1,10 +1,16 @@
 import os
+import sys
 import psycopg2
 import pandas as pd
 from getConnection import get_connection
 
 us_df = pd.read_csv("../US/uscities.csv")
 ca_df = pd.read_csv("../CA/canadacities.csv")
+
+def compare(conn,uid1,uid2):
+    score = 0
+
+    return score
 
 def main():
     conn = get_connection()

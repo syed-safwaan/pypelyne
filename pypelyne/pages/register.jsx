@@ -6,15 +6,17 @@ import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 import {auth} from "../components/firebase/firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import Select from 'react-select'
+import {options} from "../components/register/options";
 
 export default function register() {
   const router = useRouter();
-
   const sw = withReactContent(Swal);
-
   const [user, loading, error] = useAuthState(auth);
+  const [selected, setSelected] = React.useState([]);
 
+  const onInterestChange = selectedOptions => setSelected(selectedOptions);
 
   useEffect(() => {
     if (loading) {
@@ -35,15 +37,40 @@ export default function register() {
 
     auth.createUserWithEmailAndPassword(e.target.email.value, e.target.password.value).then((userCredential) => {
       let user = userCredential.user;
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({email: e.target.email.value, tags: selected})
+      };
+
+      fetch("http://localhost:5000/api/register", requestOptions).then(response => {
+        console.log(response);
+        if (response.ok) {
+          sw.fire({
+            title: "success",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 3000
+          }).then(() => {
+            router.push("/profile");
+          })
+        }
+
+        throw response
+      }).catch((error) => {
+        sw.fire({
+          title: "Error",
+          icon: "error",
+          text: "Error occurred when registering",
+          showCancelButton: true,
+          showConfirmButton: false
+        });
+
+      });
+
       console.log(user);
-      sw.fire({
-        title: "success",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 3000
-      }).then(() => {
-        router.push("/profile");
-      })
+
     }).catch((error) => {
       sw.fire({
         title: "Error",
@@ -69,6 +96,11 @@ export default function register() {
             <h1 className="h3 mb-3 font-weight-normal">Registration</h1>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control type="name" name="name" placeholder="Enter name"/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" name="email" placeholder="Enter email"/>
             </Form.Group>
@@ -78,7 +110,21 @@ export default function register() {
               <Form.Control type="password" name="password" placeholder="Password"/>
             </Form.Group>
 
-            <div className="btn-toolbar flex justify-content-center">
+            <Form.Group>
+              <Form.Label>Interests</Form.Label>
+              <Select
+                isMulti
+                options={options}
+                name="colors"
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={onInterestChange}
+                value={selected}
+                closeMenuOnSelect={false}
+              />
+            </Form.Group>
+
+            <div className="btn-toolbar flex justify-content-center pt-2">
               <Button variant="primary" type="submit" className="mr-3">
                 Register
               </Button>
