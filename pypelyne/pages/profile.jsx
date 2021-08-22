@@ -3,10 +3,9 @@ import Link from "next/link";
 import Head from "next/head";
 import { Navigation } from "../components/Navigation/Navigation";
 import Dropdowns from "../components/Dropdowns";
-import { SimpleTextArea } from "../components/SimpleTextArea";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../components/firebase/firebase";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { ProfilePicture } from "../components/Profile/ProfilePicture";
@@ -42,10 +41,36 @@ export default function Profile() {
       fetch("http://localhost:5000/api/profile", requestOptions).then(response => response.json()).then(data => {
         console.log(data);
         user_profile = data;
+        setText(user_profile.bio);
         sw.close();
       });
     }
   }, [user, loading]);
+
+  const [text, setText] = React.useState((user_profile.bio == null) ? "" : user_profile.bio);
+  const onBioChange = (e) => setText(e.target.value);
+
+  function handlesc(e) {
+    e.preventDefault();
+
+    sw.fire({
+      title: "Processing...",
+      showConfirmButton: false,
+      onOpen: () => {
+        sw.showLoading();
+      }
+    });
+
+    let updateOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({email: user.email, bio:text})
+    };
+
+    fetch("http://localhost:5000/api/update_profile", updateOptions).then(response => response.json()).then(data => {
+      sw.close();
+    });
+  }
 
   return (
     <>
@@ -60,7 +85,14 @@ export default function Profile() {
             className="glass rounded-2xl w-52 h-52 m-auto mt-4"
           />
           <div className="flex items-center justify-center">
-            <SimpleTextArea />
+            <textarea
+              className="glass w-3/4 h-1/5 m-3 rounded-2xl p-3"
+              id="biography"
+              cols="15"
+              rows="5"
+              value={text}
+              onChange={onBioChange}
+            />
           </div>
           <div
             id="tagSection"
@@ -72,7 +104,7 @@ export default function Profile() {
               textColour="text-gray-600"
             />
             <div>
-              <button>save</button>
+              <button onClick={handlesc}>save</button>
             </div>
           </div>
         </section>

@@ -47,6 +47,7 @@ def register():
     data = request.get_json()
 
     try:
+        print(data)
         print(backend.ins_new_user.format(name=data['name'], email=data['email']))
         modify(backend.ins_new_user.format(name=data['name'], email=data['email']))
         return Response('{}', 200)
@@ -59,9 +60,7 @@ def register():
 @cross_origin()
 def profile():
     data = request.get_json()
-    #email = data['email']
-
-    email = "Alextu85@yahoo.ca"
+    email = data['email']
 
     df = pd.read_sql(con=conn, sql=backend.get_user.format(email=email))
     result = json.loads(df.to_json(orient="index"))["0"]
@@ -82,6 +81,21 @@ def profile():
     print(result)
 
     return Response(json.dumps(result), 200)
+
+@app.route("/api/update_profile", methods=["POST"])
+@cross_origin()
+def profile2():
+    data = request.get_json()
+    print(data)
+    email = data['email']
+    bio = data['bio']
+
+    try:
+        modify(backend.modify_bio.format(email=email, bio=bio))
+        return Response('{}', 200)
+    except:
+        traceback.print_exc()
+        return Response('{}', 500)
 
 
 
