@@ -41,7 +41,7 @@ export default function register() {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({email: e.target.email.value, tags: selected})
+        body: JSON.stringify({name: e.target.name.value, email: e.target.email.value, tags: selected})
       };
 
       fetch("http://localhost:5000/api/register", requestOptions).then(response => {
@@ -55,6 +55,7 @@ export default function register() {
           }).then(() => {
             router.push("/profile");
           })
+          return;
         }
 
         throw response
