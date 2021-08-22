@@ -8,7 +8,7 @@ load_dotenv()
 _database = os.getenv("DB")
 _host = os.getenv("HOST")
 _port = os.getenv("PORT")
-_user = os.getenv("USER")
+_user = os.getenv("USERX")
 _password = os.getenv("PASS")
 
 #print(_database, _host, _port, _user, _password)

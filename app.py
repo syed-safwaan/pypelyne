@@ -7,8 +7,10 @@ import json
 import backend
 import traceback
 import pandas as pd
+from getConnection import get_connection
 
-conn = backend.get_connection()
+conn = get_connection()
+cur = conn.cursor()
 
 from flask_sqlalchemy import SQLAlchemy
 # from backend import *
@@ -18,8 +20,9 @@ load_dotenv()
 database = os.getenv("DB")
 host = os.getenv("HOST")
 port = os.getenv("PORT")
-user = os.getenv("USER")
+user = os.getenv("USERX")
 password = os.getenv("PASS")
+
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -28,11 +31,11 @@ api = Api(app)
 #db = SQLAlchemy(app)
 
 
-def modify(SQL):
-    cur = conn.cursor()
-    cur.execute(SQL)
+def modify(SQL, params=tuple()):
+    cur.execute(SQL, params)
     conn.commit()
-    cur.close()
+    ret = cur.fetchone()
+    if ret : return ret[0]
 
 
 @app.route("/", methods=["POST"])
@@ -45,6 +48,11 @@ def serve(path):
 @cross_origin()
 def register():
     data = request.get_json()
+    
+    for d in data["tags"]:
+        sql = "INSERT INTO TAG (NAME) VALUES (%s) ON CONFLICT (NAME) DO NOTHING RETURNING ID"
+        tag_id = modify(sql, (d["value"],))
+        print(d, tag_id)
 
     try:
         print(backend.ins_new_user.format(name=data['name'], email=data['email']))
@@ -59,9 +67,9 @@ def register():
 @cross_origin()
 def profile():
     data = request.get_json()
-    #email = data['email']
+    email = data['email']
 
-    email = "Alextu85@yahoo.ca"
+    # email = "Alextu85@yahoo.ca"
 
     df = pd.read_sql(con=conn, sql=backend.get_user.format(email=email))
     result = json.loads(df.to_json(orient="index"))["0"]

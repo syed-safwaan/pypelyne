@@ -26,6 +26,7 @@ def compare(conn,uid1,uid2):
 
 
 def main():
+    
     conn = get_connection()
 
     compare(conn, 686639686897805073, 686643247083267857)
