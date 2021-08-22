@@ -11,16 +11,40 @@ import { useRouter } from "next/router";
 
 import { ProfilePicture } from "../components/Profile/ProfilePicture";
 import { Tag } from "../components/Tags/Tag";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 export default function Profile() {
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
+  const sw = withReactContent(Swal);
+  let user_profile = {};
 
   useEffect(() => {
     if (loading) {
       return;
     }
     if (!user) router.replace("/");
+    else {
+      sw.fire({
+        title: "Processing...",
+        showConfirmButton: false,
+        onOpen: () => {
+          sw.showLoading();
+        }
+      });
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({email: user.email})
+      };
+
+      fetch("http://localhost:5000/api/profile", requestOptions).then(response => response.json()).then(data => {
+        console.log(data);
+        user_profile = data;
+        sw.close();
+      });
+    }
   }, [user, loading]);
 
   return (
