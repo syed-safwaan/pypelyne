@@ -35,6 +35,7 @@ function Home() {
     auth.signInWithEmailAndPassword(e.target.email.value, e.target.password.value).then((userCredential) => {
       let user = userCredential.user;
       console.log(user);
+      sw.close();
     }).catch((error) => {
       sw.fire({
         title: "Error",
