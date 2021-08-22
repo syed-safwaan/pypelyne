@@ -34,11 +34,25 @@ export default function Profile() {
             image="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
             className="glass rounded-2xl w-52 h-52 m-auto mt-4"
           />
-          <Tag
-            tagText="C++"
-            tagColour="bg-red-300"
-            textColour="text-gray-600"
-          />
+          <div className="flex items-center justify-center">
+            <textarea
+              className="glass w-3/4 h-1/5 m-3 rounded-2xl p-3"
+              name="biography"
+              id=""
+              cols="15"
+              rows="5"
+            ></textarea>
+          </div>
+          <div
+            id="tagSection"
+            className="flex flex-wrap items-center justify-center "
+          >
+            <Tag
+              tagText="C++"
+              tagColour="bg-red-300"
+              textColour="text-gray-600"
+            />
+          </div>
         </section>
         <Dropdowns />
         <Navigation />
