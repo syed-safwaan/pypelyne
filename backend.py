@@ -25,7 +25,7 @@ def compare(conn,uid1,uid2):
     loc2 = udf.at[1, 'location_id']
 
     if loc1 is not None and loc2 is not None:
-        score += 300
+        if loc1 == loc2: score += 100
     
     if score == 0:
         return score
