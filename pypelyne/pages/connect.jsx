@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from "react";
 import TinderCard from "react-tinder-card";
 import styles from "../assets/connect.module.scss";
+import Head from "next/head";
+import { Navigation } from "../components/Navigation/Navigation";
 
 const db = [
   {
@@ -67,20 +69,20 @@ function Advanced() {
   };
 
   return (
-    <div>
+    <>
       <style jsx>{`
-        #root {
+        .root {
           text-align: center;
           display: flex;
           justify-content: center;
           width: 100vw;
           min-height: 100vh;
           overflow: hidden;
-          /* background: linear-gradient(#fff, #999); */
-          background: linear-gradient(#e66465, #9198e5);
+          // /* background: linear-gradient(#fff, #999); */
+          // background: linear-gradient(#e66465, #9198e5);
         }
 
-        #root > div {
+        .root > div {
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -117,12 +119,12 @@ function Advanced() {
 
         h1 {
           font-family: "Damion", cursive;
-          color: #fff;
+          // color: #fff;
           text-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
         }
 
         h2 {
-          color: #fff;
+          // color: #fff;
         }
 
         .swipe {
@@ -167,7 +169,7 @@ function Advanced() {
           height: 28px;
           justify-content: center;
           display: flex;
-          color: #fff;
+          // color: #fff;
           animation-name: popup;
           animation-duration: 800ms;
         }
@@ -180,11 +182,11 @@ function Advanced() {
         .buttons button {
           flex-shrink: 0;
           padding: 10px;
-          border-radius: 5px;
-          border: none;
-          color: #fff;
+          // border-radius: 5px;
+          // border: none;
+          // color: #fff;
           font-size: 18px;
-          background-color: #9198e5;
+          // background-color: #9198e5;
           transition: 200ms;
           margin: 0 10px;
           font-weight: bolder;
@@ -220,53 +222,104 @@ function Advanced() {
           }
         }
       `}</style>
-      <div id="root">
-        <div className="app">
-          <div>
-            <link
-              href="https://fonts.googleapis.com/css?family=Damion&display=swap"
-              rel="stylesheet"
-            />
-            <link
-              href="https://fonts.googleapis.com/css?family=Alatsi&display=swap"
-              rel="stylesheet"
-            />
-            <h1>React Tinder Card</h1>
-            <div className="cardContainer">
-              {characters.map((character, index) => (
-                <TinderCard
-                  ref={childRefs[index]}
-                  className="swipe"
-                  key={character.name}
-                  onSwipe={(dir) => swiped(dir, character.name)}
-                  onCardLeftScreen={() => outOfFrame(character.name)}
-                >
-                  <div
-                    style={{ backgroundImage: "url(" + character.url + ")" }}
-                    className="card"
-                  >
-                    <h3>{character.name}</h3>
+      <>
+        <Head>
+          <title>Welecome to your Profile</title>
+        </Head>
+
+        <main className="min-h-screen bg-gradient-to-tr from-green-400 to-blue-500 custom-blur flex items-center justify-center flex-col">
+          <section id="main" className="glass rounded-3xl m-2 root">
+            <div>
+              <div className="app">
+                <div>
+                  <link
+                    href="https://fonts.googleapis.com/css?family=Damion&display=swap"
+                    rel="stylesheet"
+                  />
+                  <link
+                    href="https://fonts.googleapis.com/css?family=Alatsi&display=swap"
+                    rel="stylesheet"
+                  />
+                  <div className="cardContainer">
+                    {characters.map((character, index) => (
+                      <TinderCard
+                        ref={childRefs[index]}
+                        className="swipe"
+                        key={character.name}
+                        onSwipe={(dir) => swiped(dir, character.name)}
+                        onCardLeftScreen={() => outOfFrame(character.name)}
+                      >
+                        <div
+                          style={{
+                            backgroundImage: "url(" + character.url + ")",
+                          }}
+                          className="card"
+                        >
+                          <h3>{character.name}</h3>
+                        </div>
+                      </TinderCard>
+                    ))}
                   </div>
-                </TinderCard>
-              ))}
+                  <div className="buttons">
+                    <button
+                      className="flex flex-col items-center glass rounded-3xl"
+                      onClick={() => swipe("left")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        />
+                      </svg>
+                      Swipe left!
+                    </button>
+
+                    <button
+                      className="flex flex-col items-center glass rounded-3xl"
+                      onClick={() => swipe("right")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
+                      Swipe right!
+                    </button>
+                  </div>
+                  {lastDirection ? (
+                    <h2 key={lastDirection} className="infoText text-gray-900">
+                      You swiped {lastDirection}
+                    </h2>
+                  ) : (
+                    <h2 className="infoText text-gray-900">
+                      Swipe a card or press a button to get started!
+                    </h2>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="buttons">
-              <button onClick={() => swipe("left")}>Swipe left!</button>
-              <button onClick={() => swipe("right")}>Swipe right!</button>
-            </div>
-            {lastDirection ? (
-              <h2 key={lastDirection} className="infoText">
-                You swiped {lastDirection}
-              </h2>
-            ) : (
-              <h2 className="infoText">
-                Swipe a card or press a button to get started!
-              </h2>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+          </section>
+          <Navigation />
+        </main>
+      </>
+    </>
   );
 }
 
