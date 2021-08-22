@@ -1,11 +1,10 @@
-
 $enable-shadows: true;
 $primary: rgb(0, 19, 223);
 
-$body-color:  #414042;
+$body-color: #414042;
 $body-bg: #ffffff;
 
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .login-wrap {
   height: 90vh;
@@ -17,11 +16,11 @@ $body-bg: #ffffff;
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
-    img{
+    img {
       display: block;
       margin: 0 auto;
     }
-    h1{
+    h1 {
       text-align: center;
     }
   }

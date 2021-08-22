@@ -1,12 +1,12 @@
-import '../assets/app.scss'
+import "../assets/app.scss";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>      
+    <div>
       <Component {...pageProps} />
     </div>
   );
 }
 
-export default MyApp
+export default MyApp;
