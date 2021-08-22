@@ -4,6 +4,10 @@ from flask import Flask, request, Response, send_from_directory
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS, cross_origin
 import json
+import backend
+import traceback
+
+conn = backend.get_connection()
 
 from flask_sqlalchemy import SQLAlchemy
 # from backend import *
@@ -23,6 +27,13 @@ api = Api(app)
 #db = SQLAlchemy(app)
 
 
+def modify(SQL):
+    cur = conn.cursor()
+    cur.execute(SQL)
+    conn.commit()
+    cur.close()
+
+
 @app.route("/", methods=["POST"])
 def serve(path):
     pass
@@ -34,7 +45,13 @@ def serve(path):
 def register():
     data = request.get_json()
 
-    return Response('[]', 200)
+    try:
+        print(backend.ins_new_user.format(name=data['name'], email=data['email']))
+        modify(backend.ins_new_user.format(name=data['name'], email=data['email']))
+        return Response('{}', 200)
+    except:
+        traceback.print_exc()
+        return Response('{}', 500)
 
 
 @app.route("/api/profile", methods=["GET"])
