@@ -15,3 +15,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+ins_new_user="INSERT INTO profile (name, email) VALUES ('', '');"
