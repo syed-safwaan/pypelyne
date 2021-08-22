@@ -33,9 +33,10 @@ api = Api(app)
 
 def modify(SQL, params=tuple()):
     cur.execute(SQL, params)
-    conn.commit()
     ret = cur.fetchone()
+    conn.commit()
     if ret : return ret[0]
+    return 0
 
 
 @app.route("/", methods=["POST"])
@@ -49,10 +50,15 @@ def serve(path):
 def register():
     data = request.get_json()
     
-    for d in data["tags"]:
+    for i, d in enumerate(data["tags"],1) :
         sql = "INSERT INTO TAG (NAME) VALUES (%s) ON CONFLICT (NAME) DO NOTHING RETURNING ID"
         tag_id = modify(sql, (d["value"],))
-        print(d, tag_id)
+        print(tag_id, "TAGGGGGGGGGGG")
+
+        sql = "INSERT INTO PROFILE (TAG%(int)s_ID) VALUES (%(int)s) RETURNING ID"
+        print(sql, "LOOOOOOOOOOOOOOK")
+        profile_id = modify(sql, (i,int(tag_id)))
+        print(d, tag_id, profile_id)
 
     try:
         print(data)
@@ -69,15 +75,10 @@ def register():
 def profile():
     data = request.get_json()
     email = data['email']
-<<<<<<< HEAD
-
-    # email = "Alextu85@yahoo.ca"
-=======
->>>>>>> 3c19278af287a58cd7a550b30b77a640a1906cb9
 
     df = pd.read_sql(con=conn, sql=backend.get_user.format(email=email))
     result = json.loads(df.to_json(orient="index"))["0"]
-    print(result)
+    print(result , "LOOK OUT FOR ME OR SOMETHING LIKE THAT")
 
     result['user_tag'] = []
 

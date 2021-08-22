@@ -30,24 +30,28 @@ export default function Profile() {
         showConfirmButton: false,
         onOpen: () => {
           sw.showLoading();
-        }
+        },
       });
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({email: user.email})
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email }),
       };
 
-      fetch("http://localhost:5000/api/profile", requestOptions).then(response => response.json()).then(data => {
-        console.log(data);
-        user_profile = data;
-        setText(user_profile.bio);
-        sw.close();
-      });
+      fetch("http://localhost:5000/api/profile", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          user_profile = data;
+          setText(user_profile.bio);
+          sw.close();
+        });
     }
   }, [user, loading]);
 
-  const [text, setText] = React.useState((user_profile.bio == null) ? "" : user_profile.bio);
+  const [text, setText] = React.useState(
+    user_profile.bio == null ? "" : user_profile.bio
+  );
   const onBioChange = (e) => setText(e.target.value);
 
   function handlesc(e) {
@@ -58,18 +62,20 @@ export default function Profile() {
       showConfirmButton: false,
       onOpen: () => {
         sw.showLoading();
-      }
+      },
     });
 
     let updateOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email: user.email, bio:text})
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email, bio: text }),
     };
 
-    fetch("http://localhost:5000/api/update_profile", updateOptions).then(response => response.json()).then(data => {
-      sw.close();
-    });
+    fetch("http://localhost:5000/api/update_profile", updateOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        sw.close();
+      });
   }
 
   return (
@@ -99,16 +105,75 @@ export default function Profile() {
             className="flex flex-wrap items-center justify-center "
           >
             <Tag
-              tagText="C++"
-              tagColour="bg-red-300"
+              tagText="Flask"
+              tagColour="bg-blue-300"
               textColour="text-gray-600"
             />
-            <div>
-              <button onClick={handlesc}>save</button>
-            </div>
+            <Tag
+              tagText="Python"
+              tagColour="bg-blue-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Git"
+              tagColour="bg-yellow-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Yarn"
+              tagColour="bg-yellow-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Node.JS"
+              tagColour="bg-green-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="React.JS"
+              tagColour="bg-green-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Tailwindcss"
+              tagColour="bg-green-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Cockroach DB"
+              tagColour="bg-purple-300"
+              textColour="text-gray-600"
+            />
+            <Tag
+              tagText="Firebase"
+              tagColour="bg-purple-300"
+              textColour="text-gray-600"
+            />
+          </div>
+
+          <div>
+            <button
+              className="flex items-center glass rounded-3xl absolute bottom-40 right-52"
+              onClick={handlesc}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-12 w-12 p-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                />
+              </svg>
+            </button>
           </div>
         </section>
-        <Dropdowns />
+        {/* <Dropdowns /> */}
         <Navigation />
       </main>
     </>
