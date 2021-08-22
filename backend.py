@@ -38,8 +38,8 @@ def compare(conn,uid1,uid2):
 
 def main():
     conn = get_connection()
-    #uid = sys.argv[0]
-    uid = 686639686897805073
+    uid = int(sys.argv[0])
+    #uid = 686639686897805073
 
     df = pd.read_sql(con = conn, sql="SELECT * FROM PROFILE")
     matches = []
